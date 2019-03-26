@@ -21,6 +21,8 @@
 .idea/
 .mvn
 src/main/resources/in/1500000_record.csv
+org/apache/spark/api/java/function
+target/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
