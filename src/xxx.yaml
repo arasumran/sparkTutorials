@@ -1,0 +1,40 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: spark-jupyterlab
+  namespace: default
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "36253743/erkanimage:0.0.3"
+  imagePullPolicy: Always
+  mainApplicationFile: local:///opt/app-root/bin/start-notebook.sh
+  sparkVersion: "3.3.1"
+  restartPolicy:
+    type: Never
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "1024m"
+    labels:
+      version: "3.3.1"
+    serviceAccount: spark
+    envVars:
+      PYSPARK_PYTHON: /usr/bin/python3
+      SPARK_HOME: /opt/app-root/spark-${SPARK_VERSION}
+      JAVA_HOME: /usr/lib/jvm/jre
+      HADOOP_HOME: /opt/app-root/hadoop-${HADOOP_VERSION}
+      SPARK_DIST_CLASSPATH: "$HADOOP_HOME/etc/hadoop:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:/contrib/capacity-scheduler/*.jar:$HADOOP_HOME/share/hadoop/tools/lib/*"
+  executor:
+    cores: 1
+    instances: 1
+    memory: "1024m"
+    labels:
+      version: "3.3.1"
+    envVars:
+      PYSPARK_PYTHON: /usr/bin/python3
+      SPARK_HOME: /opt/app-root/spark-${SPARK_VERSION}
+      JAVA_HOME: /usr/lib/jvm/jre
+      HADOOP_HOME: /opt/app-root/hadoop-${HADOOP_VERSION}
+      SPARK_DIST_CLASSPATH: "$HADOOP_HOME/etc/hadoop:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:/contrib/capacity-scheduler/*.jar:$HADOOP_HOME/share/hadoop/tools/lib/*"
